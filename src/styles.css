@@ -78,6 +78,14 @@
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
+  /* CuidarJá brand */
+  --primary: oklch(0.62 0.13 235);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.05 190);
+  --secondary-foreground: oklch(0.30 0.08 200);
+  --accent: oklch(0.96 0.04 200);
+  --accent-foreground: oklch(0.30 0.08 200);
+  --ring: oklch(0.62 0.13 235);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
