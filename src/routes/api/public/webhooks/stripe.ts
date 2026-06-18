@@ -9,9 +9,12 @@ export const Route = createFileRoute("/api/public/webhooks/stripe")({
         if (!secret || !whSecret) return new Response("Stripe not configured", { status: 500 });
         const sig = request.headers.get("stripe-signature") ?? "";
         const body = await request.text();
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const Stripe = require("stripe");
-        const stripe = new Stripe(secret, { apiVersion: "2024-12-18.acacia" as any });
+        const mod = await import("stripe");
+        const Stripe = (mod as any).default ?? mod;
+        const stripe = new Stripe(secret, {
+          apiVersion: "2024-12-18.acacia" as any,
+          httpClient: Stripe.createFetchHttpClient ? Stripe.createFetchHttpClient() : undefined,
+        });
         let event: any;
         try {
           event = stripe.webhooks.constructEvent(body, sig, whSecret);

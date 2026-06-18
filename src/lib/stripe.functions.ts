@@ -2,13 +2,15 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-function getStripe() {
+async function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) throw new Error("STRIPE_SECRET_KEY não configurada. Adicione nas Configurações do projeto.");
-  // dynamic import keeps the SDK out of the client bundle
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const Stripe = require("stripe");
-  return new Stripe(key, { apiVersion: "2024-12-18.acacia" as any });
+  if (!key) throw new Error("STRIPE_SECRET_KEY não configurada. Peça ao admin para adicionar via Secrets.");
+  const mod = await import("stripe");
+  const Stripe = (mod as any).default ?? mod;
+  return new Stripe(key, {
+    apiVersion: "2024-12-18.acacia" as any,
+    httpClient: Stripe.createFetchHttpClient ? Stripe.createFetchHttpClient() : undefined,
+  });
 }
 
 function originFromEnv(): string {
@@ -19,7 +21,7 @@ export const createConnectAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({}).parse(d ?? {}))
   .handler(async ({ context }) => {
-    const stripe = getStripe();
+    const stripe = await getStripe();
     const { data: details } = await context.supabase.from("caregiver_details").select("stripe_account_id").eq("id", context.userId).maybeSingle();
     let accountId = details?.stripe_account_id as string | undefined;
     if (!accountId) {
@@ -44,7 +46,7 @@ export const createCheckoutForContract = createServerFn({ method: "POST" })
     hours: z.number().int().min(1).max(240),
   }).parse(d))
   .handler(async ({ data, context }) => {
-    const stripe = getStripe();
+    const stripe = await getStripe();
     // Read public caregiver data (server side, RLS-safe via the user client)
     const { data: pro, error } = await context.supabase
       .from("public_caregivers")
