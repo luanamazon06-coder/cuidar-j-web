@@ -76,11 +76,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "CuidarJá — Cuidadores e acompanhantes de idosos" },
       { name: "description", content: "Conectamos famílias a cuidadores profissionais e acompanhantes de confiança. Encontre o cuidado ideal para quem você ama." },
       { name: "author", content: "CuidarJá" },
-      { property: "og:title", content: "CuidarJá — Cuidadores e acompanhantes" },
-      { property: "og:description", content: "Conectamos famílias a cuidadores profissionais e acompanhantes de confiança." },
+      { property: "og:title", content: "CuidarJá — Cuidadores e acompanhantes de idosos" },
+      { property: "og:description", content: "Conectamos famílias a cuidadores profissionais e acompanhantes de confiança. Encontre o cuidado ideal para quem você ama." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "CuidarJá — Cuidadores e acompanhantes de idosos" },
+      { name: "twitter:description", content: "Conectamos famílias a cuidadores profissionais e acompanhantes de confiança. Encontre o cuidado ideal para quem você ama." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0f2375bc-175c-4d32-9da1-e58bb8edf6ae/id-preview-546d6cf7--d9384384-631d-41bb-b3a0-fcb840ba7221.lovable.app-1781809943563.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0f2375bc-175c-4d32-9da1-e58bb8edf6ae/id-preview-546d6cf7--d9384384-631d-41bb-b3a0-fcb840ba7221.lovable.app-1781809943563.png" },
     ],
     links: [
       {
