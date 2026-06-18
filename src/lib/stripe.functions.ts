@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { getRequest } from "@tanstack/react-start/server";
 
 async function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -13,8 +14,15 @@ async function getStripe() {
   });
 }
 
-function originFromEnv(): string {
-  return process.env.PUBLIC_SITE_URL || "https://example.com";
+function getOrigin(): string {
+  if (process.env.PUBLIC_SITE_URL) return process.env.PUBLIC_SITE_URL;
+  try {
+    const req = getRequest();
+    const url = new URL(req.url);
+    return `${url.protocol}//${url.host}`;
+  } catch {
+    return "https://example.com";
+  }
 }
 
 export const createConnectAccount = createServerFn({ method: "POST" })
@@ -29,7 +37,7 @@ export const createConnectAccount = createServerFn({ method: "POST" })
       accountId = acct.id;
       await context.supabase.from("caregiver_details").update({ stripe_account_id: accountId }).eq("id", context.userId);
     }
-    const origin = originFromEnv();
+    const origin = getOrigin();
     const link = await stripe.accountLinks.create({
       account: accountId,
       refresh_url: `${origin}/cadastro-cuidador`,
@@ -71,7 +79,7 @@ export const createCheckoutForContract = createServerFn({ method: "POST" })
 
     const totalCents = Math.round(Number(pro.hourly_rate) * data.hours * 100);
     const feeCents = Math.round(totalCents * 0.2);
-    const origin = originFromEnv();
+    const origin = getOrigin();
 
     // Create pending contract (admin client to ignore client-side RLS race conditions)
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
