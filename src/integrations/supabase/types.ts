@@ -14,16 +14,281 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      caregiver_details: {
+        Row: {
+          age: number | null
+          bio: string
+          category: Database["public"]["Enums"]["caregiver_category"]
+          certificate_url: string | null
+          city: string
+          created_at: string
+          hourly_rate: number
+          id: string
+          is_active: boolean
+          neighborhood: string
+          stripe_account_id: string | null
+        }
+        Insert: {
+          age?: number | null
+          bio?: string
+          category?: Database["public"]["Enums"]["caregiver_category"]
+          certificate_url?: string | null
+          city?: string
+          created_at?: string
+          hourly_rate?: number
+          id: string
+          is_active?: boolean
+          neighborhood?: string
+          stripe_account_id?: string | null
+        }
+        Update: {
+          age?: number | null
+          bio?: string
+          category?: Database["public"]["Enums"]["caregiver_category"]
+          certificate_url?: string | null
+          city?: string
+          created_at?: string
+          hourly_rate?: number
+          id?: string
+          is_active?: boolean
+          neighborhood?: string
+          stripe_account_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caregiver_details_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "caregiver_details_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contracts: {
+        Row: {
+          caregiver_id: string
+          client_id: string
+          created_at: string
+          hours: number
+          id: string
+          status: Database["public"]["Enums"]["contract_status"]
+          stripe_checkout_session_id: string | null
+          total_amount: number
+        }
+        Insert: {
+          caregiver_id: string
+          client_id: string
+          created_at?: string
+          hours?: number
+          id?: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          stripe_checkout_session_id?: string | null
+          total_amount: number
+        }
+        Update: {
+          caregiver_id?: string
+          client_id?: string
+          created_at?: string
+          hours?: number
+          id?: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          stripe_checkout_session_id?: string | null
+          total_amount?: number
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          caregiver_share: number
+          contract_id: string
+          created_at: string
+          id: string
+          is_split_successful: boolean
+          platform_share: number
+          stripe_payment_id: string | null
+          total_value: number
+        }
+        Insert: {
+          caregiver_share: number
+          contract_id: string
+          created_at?: string
+          id?: string
+          is_split_successful?: boolean
+          platform_share: number
+          stripe_payment_id?: string | null
+          total_value: number
+        }
+        Update: {
+          caregiver_share?: number
+          contract_id?: string
+          created_at?: string
+          id?: string
+          is_split_successful?: boolean
+          platform_share?: number
+          stripe_payment_id?: string | null
+          total_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          cpf: string | null
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+          rg: string | null
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          avatar_url?: string | null
+          cpf?: string | null
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+          rg?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          avatar_url?: string | null
+          cpf?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          rg?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          caregiver_id: string
+          client_id: string | null
+          client_name: string
+          comment: string
+          created_at: string
+          id: string
+          rating: number
+        }
+        Insert: {
+          caregiver_id: string
+          client_id?: string | null
+          client_name?: string
+          comment?: string
+          created_at?: string
+          id?: string
+          rating: number
+        }
+        Update: {
+          caregiver_id?: string
+          client_id?: string | null
+          client_name?: string
+          comment?: string
+          created_at?: string
+          id?: string
+          rating?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_caregiver_id_fkey"
+            columns: ["caregiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_caregiver_id_fkey"
+            columns: ["caregiver_id"]
+            isOneToOne: false
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      public_caregivers: {
+        Row: {
+          age: number | null
+          avatar_url: string | null
+          avg_rating: number | null
+          bio: string | null
+          category: Database["public"]["Enums"]["caregiver_category"] | null
+          city: string | null
+          full_name: string | null
+          hourly_rate: number | null
+          id: string | null
+          is_active: boolean | null
+          neighborhood: string | null
+          reviews_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caregiver_details_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "caregiver_details_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      public_profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          full_name: string | null
+          id: string | null
+          role: Database["public"]["Enums"]["app_role"] | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_caregiver_phone: { Args: { _caregiver_id: string }; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "client" | "caregiver" | "admin"
+      caregiver_category: "profissional" | "acompanhante"
+      contract_status: "pending" | "paid" | "completed" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +415,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["client", "caregiver", "admin"],
+      caregiver_category: ["profissional", "acompanhante"],
+      contract_status: ["pending", "paid", "completed", "cancelled"],
+    },
   },
 } as const
