@@ -78,14 +78,18 @@
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
-  /* CuidarJá brand */
-  --primary: oklch(0.62 0.13 235);
+  /* CuidarJá brand — Vermelho Paixão */
+  --primary: oklch(0.60 0.22 27);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.05 190);
-  --secondary-foreground: oklch(0.30 0.08 200);
-  --accent: oklch(0.96 0.04 200);
-  --accent-foreground: oklch(0.30 0.08 200);
-  --ring: oklch(0.62 0.13 235);
+  --primary-glow: oklch(0.72 0.20 35);
+  --secondary: oklch(0.96 0.04 25);
+  --secondary-foreground: oklch(0.38 0.18 27);
+  --accent: oklch(0.94 0.06 30);
+  --accent-foreground: oklch(0.38 0.18 27);
+  --ring: oklch(0.60 0.22 27);
+  --gradient-hero: linear-gradient(135deg, oklch(0.96 0.04 25) 0%, oklch(0.93 0.08 30) 45%, oklch(0.86 0.14 32) 100%);
+  --gradient-warm: linear-gradient(135deg, oklch(0.60 0.22 27) 0%, oklch(0.72 0.20 35) 100%);
+  --shadow-warm: 0 18px 40px -18px color-mix(in oklab, oklch(0.60 0.22 27) 45%, transparent);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
@@ -150,3 +154,16 @@
     color: var(--color-foreground);
   }
 }
+
+@layer utilities {
+  .bg-gradient-hero { background-image: var(--gradient-hero); }
+  .bg-gradient-warm { background-image: var(--gradient-warm); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .text-primary-glow { color: var(--primary-glow); }
+}
+
+@keyframes heart-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(220, 38, 38, 0)); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 0 14px rgba(220, 38, 38, 0.55)); }
+}
+.animate-heart-pulse { animation: heart-pulse 1.4s ease-in-out infinite; transform-origin: center; }
